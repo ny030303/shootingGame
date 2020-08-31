@@ -1,0 +1,69 @@
+#canvas {
+    transition: .4s;
+}
+
+.myGame {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    position: fixed;
+    /*background-color: #000;*/
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("/images/main/inGameDarkBack2.jpg");
+    /*background-image: ;*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 70%;
+}
+
+#startBtn {
+    position: relative;
+    font-family: 'Orbitron', sans-serif;
+    background: rgba(0,0,0,0);
+    color: #ddd;
+    font-size: 2em;
+    transition: .2s;
+}
+
+#startBtn:hover {
+    /*color: #112e9a;*/
+    color: #09ffde;
+}
+
+#startBtn:hover:after {
+    left: 0;
+    width: 100%;
+}
+
+#startBtn:after {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #fff;
+    transition: width .2s ease,left .2s ease;
+    content: "";
+}
+
+.gameStartBefore {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#game-ready-txt {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4em;
+
+    margin: 0 0 90px 0;
+
+    /*background: linear-gradient(45deg, rgb(255, 255, 255) 0%, rgb(232, 232, 232) 20%, #00fff8 100%);*/
+    /*-webkit-background-clip: text;*/
+    /*-webkit-text-fill-color: transparent;*/
+    /*font-weight: bold;*/
+
+    color: #00c1bc;
+}

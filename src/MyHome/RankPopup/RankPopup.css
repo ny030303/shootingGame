@@ -1,0 +1,44 @@
+.popupStyle1 {
+    background-color: #080808;
+    border: 2px solid #123151;
+}
+
+#rankList {
+    background-color: #02192a;
+    height: 390px;
+    overflow-y: scroll;
+}
+
+.rankLi {
+    border-bottom: 1px solid #05233a;
+    padding: 10px 5px;
+}
+
+.rankLiNumImg {
+    width: 95px;
+    margin: 0 10px 0 5px;
+    display: inline-block;
+
+}
+
+.normalLiNum {
+    font-size: 30px;
+    text-align: center;
+    padding: 20px;
+}
+
+.rankLiTextsWrap {
+    display: inline-block;
+    padding: 10px 0 0 0;
+
+}
+
+.rankLiName {
+    color: #549feb;
+}
+
+.rankLiScore {
+    font-size: 20px;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+}

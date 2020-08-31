@@ -1,0 +1,23 @@
+.calculateTitleImg {
+    width: 564px;
+    height: 200px;
+    display: block;
+    margin: 0 auto;
+    background-image: url("/images/main/gameOver.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.calculateContents {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    color: #ddd;
+    font-size: 20px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.calculateIcon {
+    margin: 120px 5px 0 5px;
+    cursor: pointer;
+}

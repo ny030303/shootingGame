@@ -1,0 +1,94 @@
+#menuImg {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/images/bg1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+#mainMenuTitle {
+    font-size: 40px;
+    text-align: center;
+    background: linear-gradient(to bottom, #ffffff, #a5a5a5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    font-family: 'Roboto Condensed', sans-serif;
+    padding: 25px 0;
+    cursor: pointer;
+    /*text-shadow: -3px 4px 10px #6a9eab;*/
+}
+
+.mainMenuWrap {
+    color: #ffffff;
+    text-shadow: 0px 2px 17px #00fffc;
+    font-size: 40px;
+    line-height: 60px;
+    text-align: center;
+    width: 230px;
+    margin: 220px 0 0 100px;
+    /*padding: 100px;*/
+    display: inline-block;
+    /*font-weight: bold;*/
+    font-family: 'Roboto Condensed', sans-serif;
+    transform: skewX(-10deg);
+}
+
+.mainMenuWrap li:hover .subMenu {
+    transition: .3s;
+    visibility: visible;
+    left: 280px;
+}
+
+.mainMenuWrap li:hover {
+    transition: .3s;
+}
+
+.mainMenuWrap a {
+    cursor: pointer;
+}
+
+.mainMenuWrap li {
+    position: relative;
+}
+
+.subMenu {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 100px;
+    width: 500px;
+    background-color: #17928a;
+    cursor: pointer;
+    font-size: 26px;
+    /*height: 30px;*/
+}
+
+/*=========userMenuInfo=========*/
+
+.userMenuInfo {
+    padding: 20px;
+    background-color: #17928a;
+    width: 450px;
+    transform: skewX(-10deg);
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
+
+.userImage {
+    width: 80px;
+    height: 80px;
+    background-image: url("/images/player.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: skewX(0deg);
+    position: absolute;
+    top: 5px;
+    right: 30px;
+}
+
+.userMenuInfoText {
+    color: #fff;
+}

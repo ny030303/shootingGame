@@ -1,0 +1,7 @@
+-베지어 곡선-
+https://javascript.info/bezier-curve
+
+
+- canvas source-in -
+https://developer.mozilla.org/ko/docs/Web/HTML/Canvas/Tutorial/Compositing
+
