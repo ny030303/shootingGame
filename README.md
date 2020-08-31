@@ -1,4 +1,4 @@
-# Project - Shop Mall
+# Project - shooting game
 
 ------------
 
