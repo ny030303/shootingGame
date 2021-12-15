@@ -9,7 +9,7 @@
     margin: 0 auto;
     position: fixed;
     /*background-color: #000;*/
-    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("/images/main/inGameDarkBack2.jpg");
+    /* background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("/images/main/inGameDarkBack2.jpg"); */
     /*background-image: ;*/
     background-size: cover;
     background-repeat: no-repeat;

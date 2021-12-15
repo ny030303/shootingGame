@@ -1,11 +1,12 @@
 import {Stage} from "./Stage";
 import {TimeBullet} from "../Bullet/TimeBullet";
+import { loadImage } from "../GameUtils";
 
 export class StageManager {
     constructor(parent, imgs) {
         this.parent = parent;
-        this.gw = this.parent.gameWidth;
-        this.gh = this.parent.gameHeight;
+        // this.gw = this.parent.gameWidth;
+        // this.gh = this.parent.gameHeight;
 
         this.stageIdx = 0; //지금 stage에서 몇번째 적을 만들어내는지 저장
         this.nowStageNum = 1;

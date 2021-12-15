@@ -7,3 +7,7 @@ export const loadImage = (name) => {
     });
   });
 };
+
+export const loadJSON = async (url) => {
+  await fetch(url);
+}

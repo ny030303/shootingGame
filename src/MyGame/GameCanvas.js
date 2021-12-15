@@ -35,23 +35,11 @@ export default class GameCanvas extends React.Component {
 
   componentDidMount() {
     console.log(this.canvas.current);
-    getUser("","", (data) => {
-      this.setState({isLogin: data.result});
-      // console.log("들어옴", data);
-      if(!data.result) {
-        alertDialog.show("알림!", "로그인 후 이용해 주시기 바랍니다.");
-        this.props.history.push("/");
-      } else {
-        if (this.canvas) {
-          this.ctx = this.canvas.current.getContext("2d");
-
-          if (this.gameMain == null) {
-            this.gameMain = new GameMain(this.canvas.current, this.ctx, this.gotoCalculatePage, this.state.isLogin);
-            // this.gameMain.init();
-          }
-        }
-      }
-    });
+    this.ctx = this.canvas.current.getContext("2d");
+    if (this.gameMain == null) {
+      this.gameMain = new GameMain(this.canvas.current, this.ctx, this.gotoCalculatePage, this.state.isLogin);
+      // this.gameMain.init();
+    }
   }
 
 
@@ -65,15 +53,15 @@ export default class GameCanvas extends React.Component {
 
   gotoCalculatePage(score) {
     console.log("score: ", score);
-    getUser("","", (data) => {
-      if(data.users.score < score) {
-        updateUserScore(score, data.users.id, (result) => {
-          console.log("updateScore: ", result);
-        });
-      }
-    });
+    // getUser("","", (data) => {
+    //   if(data.users.score < score) {
+    //     updateUserScore(score, data.users.id, (result) => {
+    //       console.log("updateScore: ", result);
+    //     });
+    //   }
+    // });
     localStorage.setItem('userScore', score);
-    this.props.history.push("/calculate");
+    // this.props.history.push("/calculate");
   }
 
 
@@ -104,9 +92,9 @@ export default class GameCanvas extends React.Component {
         <canvas id="canvas" ref={this.canvas} width="500" height="800" style={{margin: "50px auto", display: "block"}}/>
         <div className="gameStartBefore" style={(this.state.gameStart) ? {display:"none"} : {display:"block"}}>
           <div id="game-ready-txt">
-            <SplitText initialPose="exit" pose="enter" charPoses={charPoses}>You ready for this?</SplitText>
+            {/* <SplitText initialPose="exit" pose="enter" charPoses={charPoses}>You ready for this?</SplitText> */}
           </div>
-          <button id="startBtn" onClick={this.canvasStart}>Let's go!</button>
+          <button id="startBtn" onClick={this.canvasStart}>Start</button>
 
         </div>
         {/*<input type="text" onChange={this.inputYYDH}/>*/}

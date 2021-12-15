@@ -1,6 +1,7 @@
 ﻿import {Player} from "./Player";
 import {Stage} from "./Stage/Stage";
-import {loadImage} from "./GameUtils";
+import {loadImage, loadJSON} from "./GameUtils";
+import gameSetting from './Data/game';
 import BulletManager from "./Bullet/BulletManager";
 import ExplosionManager from "./Explosion/ExplosionManager";
 import EnemyManager from "./Enemy/EnemyManager";
@@ -14,8 +15,8 @@ class GameMain {
     GameMain.app = this; // 앱에 스태틱으로 넣었음
     this.canvas = canvas;
     this.ctx = ctx;
-    this.gameWidth = 500;
-    this.gameHeight = 800;
+    this.gameWidth = gameSetting.width;
+    this.gameHeight = gameSetting.height;
     this.gameOver = false;
 
     this.player = null;
@@ -44,11 +45,6 @@ class GameMain {
     this.isLogin = isLogin;
     this.nowTime = 0;
 
-
-    this.timeCheck = setInterval(() => {
-      this.nowTime += 1;
-    }, 1000);
-
   }
 
   // bypass functions
@@ -62,35 +58,19 @@ class GameMain {
 
   async init() {
     console.log(this.isLogin);
-    if(!this.isLogin) return;
-    this.enemyManager = new EnemyManager(this, [
-      await loadImage("enemy_1.png"),
-      await loadImage("enemy_2.png"),
-      await loadImage("enemy_2_1.png"),
-
-      await loadImage("boss_1.png"),
-      await loadImage("boss.png"),
-      await loadImage("enemy_3.png"),
-
-      await loadImage("enemy_4.png"),
-      await loadImage("boss_2.png"),
-      await loadImage("boss_2.png"),
-      await loadImage("boss_3.png"),
-    ]);
+    // if(!this.isLogin) return;
+    this.enemyManager = new EnemyManager(this);
+    await this.enemyManager.init();
     // 스테이지 생성
-    let titleImages = {
-      stageTitle1: await loadImage('stageTitle_1.png'),
-      stageTitle2: await loadImage('stageTitle_2.png'),
-      stageTitle3: await loadImage('stageTitle_3.png'),
-    };
-    this.stageManager = new StageManager(this, Object.assign(this.enemyManager.imageList, titleImages));
-
+    // this.titleImages = {
+    //   stageTitle1: await loadImage('stageTitle_1.png'),
+    //   stageTitle2: await loadImage('stageTitle_2.png'),
+    //   stageTitle3: await loadImage('stageTitle_3.png'),
+    // };
+    this.stageManager = new StageManager(this);
     //백그라운드 생성
-    this.bgManager = new BackgroundManager(this, [
-      await loadImage("stage_bg1.png"),
-      await loadImage("stage_bg2.png"),
-      await loadImage("space_bg.png")
-    ]);
+    this.bgManager = new BackgroundManager(this);
+    await this.bgManager.init();
 
     // 매니저 이미지 넘겨주기
     this.bulletManager = new BulletManager(this, [
@@ -116,7 +96,10 @@ class GameMain {
       await loadImage("shield.png"),
       await loadImage("rocket.png"),
     ]);
-
+    
+    this.timeCheck = setInterval(() => {
+      this.nowTime += 1;
+    }, 1000);
     this.startGame();
   }
 
@@ -156,7 +139,7 @@ class GameMain {
     if (!this.start) this.start = time;
     let delta = time - this.start;
     this.start = time;
-    console.log(delta);
+    // console.log(delta);
 
     if (this.gameOver === false) {
       this.update(delta / 1000);

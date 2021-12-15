@@ -24,10 +24,10 @@ class App extends React.Component {
       <div className="App">
           <HashRouter>
               <Switch>
-                  <Route exact path="/" component={MyHome}/>
-                  <Route path="/menu" component={MyMenu}/>
+                  <Route exact path="/" component={GameCanvas}/>
+                  {/* <Route path="/menu" component={MyMenu}/>
                   <Route  path="/game" component={GameCanvas}/>
-                  <Route path="/calculate" component={CalculatePage}/>
+                  <Route path="/calculate" component={CalculatePage}/> */}
               </Switch>
           </HashRouter>
           {/*<MyHome/>*/}

@@ -29,14 +29,14 @@ export class Enemy {
         this.score = 100;
     }
 
-    reset(x, y, w, h, img, data) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.img = img;
+    reset(data) {
+        this.x = data.x;
+        this.y = data.y;
+        this.w = data.w;
+        this.h = data.h;
+        this.img = data.img;
 
-        this.timeBullets = TimeBullet.getEnemy(data.type);
+        // this.timeBullets = TimeBullet.getEnemy(data.type);
         this.active = true;
         this.playTm = null;
         this.data = Object.assign({}, data);
@@ -46,57 +46,9 @@ export class Enemy {
     fire() {
         if (!this.active) return;
 
-        let player = this.parent.player;
+        // let player = this.parent.player;
         let centerX = this.x + this.w / 2;
-        switch (this.data.type) {
-            case "normal_1":
-                this.parent.createBullet(centerX, this.y + this.h - 5, 300, makeTargetDirVector(this, player), "enemyBullet");
-                break;
-            case "normal_1_1":
-
-                break;
-            case "normal_2":
-                this.parent.createBullet(centerX, this.y + this.h - 10, 300, new Vector(0, 1), "fireBall");
-                break;
-            case "normal_2_1":
-                this.parent.createBullet(centerX, this.y + this.h - 10, 300, new Vector(0, 1), "iceBall");
-                break;
-            case "normal_4" :
-            case "boss_3":
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(0, 1), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(0, -1), "enemyBullet");
-                // this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 300, new Vector(0, 1), "enemyBullet");
-                // this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 300, new Vector(0, -1), "enemyBullet");
-
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(1, 4), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(-1, 4), "enemyBullet");
-
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(4, 1), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(-4, 1), "enemyBullet");
-
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(1, 2), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(-1, 2), "enemyBullet");
-
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(2, 1), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(-2, 1), "enemyBullet");
-                //
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(1, 1), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(-1, 1), "enemyBullet");
-                //
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(1, 0), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(-1, 0), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(0, 1), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(0, 1), "enemyBullet");
-
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(1, -2), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(-1, -2), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(2, -1), "enemyBullet");
-                this.parent.createBullet(this.x + this.w / 3, this.y + this.h - 5, 200, new Vector(-2, -1), "enemyBullet");
-                break;
-            case "boss_2":
-
-                break;
-        }
+        this.parent.createBullet(centerX, this.y + this.h - 5, 200, new Vector(0, 1), "enemyBullet");
         setTimeout(this.fire.bind(this), this.fireTerm);
     }
 
@@ -105,38 +57,7 @@ export class Enemy {
             let player = this.parent.player;
             let centerX = this.x + this.w / 2;
             let tmData = this.timeBullets.shift();
-            switch (tmData.type) {
-                case "fireBall":
-                case "iceBall":
-                    this.parent.createBullet(centerX, this.y + this.h - 5, tmData.s, tmData.v, tmData.type, tmData.pattern);
-                    break;
-                case "multiBall1":
-                    for (let i = 0; i < tmData.len; i++) {
-                        let mvec = new Vector(tmData.v.x + (i / 10) * (i % 2 == 0 ? -1 : 1), tmData.v.y);
-                        this.parent.createBullet(centerX, this.y + this.h - 5, tmData.s || 150, mvec, "enemyBullet");
-                    }
-                    break;
-                case "multiBall2":
-                    for (let i = 0; i < tmData.len; i++) {
-                        let mvec = new Vector(tmData.v.x + (i / 10) * (i % 2 == 0 ? -1 : 1), tmData.v.y + (i / 10) * (i % 2 == 0 ? -1 : 1));
-                        this.parent.createBullet(centerX, this.y + this.h - 5, tmData.s || 150, mvec, "enemyBullet");
-                    }
-
-                    for (let i = 0; i < tmData.len; i++) {
-                        let mvec = new Vector(tmData.v.x + (i / 15) * (i % 2 == 0 ? 1 : -1), tmData.v.y + (i / 10) * (i % 2 == 0 ? -1 : 1));
-                        this.parent.createBullet(centerX, this.y + this.h - 5, tmData.s || 150, mvec, "enemyBullet");
-                    }
-
-                    // for (let i = 0; i < tmData.len; i++) {
-                    //   let mvec = new Vector(tmData.v.x + (i / 20) * (i % 2 == 0 ? 1 : -1), tmData.v.y + (i / 20) * (i % 2 == 0 ? -1 : 1));
-                    //   this.parent.createBullet(centerX, this.y + this.h - 5, tmData.s || 150, mvec, "enemyBullet");
-                    // }
-                    // for (let i = 0; i < tmData.len; i++) {
-                    //   let mvec = new Vector(tmData.v.x + (i / 10) * (i % 2 == 0 ? -1 : 1), tmData.v.y);
-                    //   this.parent.createBullet(centerX, this.y + this.h - 5, tmData.s || 150, mvec, "enemyBullet");
-                    // }
-                    break;
-            }
+            
         }
     }
 
@@ -146,7 +67,7 @@ export class Enemy {
             this.explosion();
             this.parent.nowScore += this.score;
             if (this.data.nextStage) {
-                console.log(this.data.nextStage);
+                // console.log(this.data.nextStage);
                 setTimeout(StageManager.gotoNextStage, 1000);
             }
         }
@@ -161,12 +82,13 @@ export class Enemy {
         }
         this.parent.createExplosion(this.x + this.w / 2, this.y + this.h / 2, scale);
 
-        if (this.data.type === "normal_2" || this.data.type === "normal_2_1") {
-            this.parent.createItem(this.x + (this.w / 2), this.y + (this.h / 2), 30, 30, "item_1");
-        } else if (this.data.type === "normal_4") {
-            console.log(this.data.type);
-            this.parent.createItem(this.x + (this.w / 2), this.y + (this.h / 2), 30, 30, "item_2");
-        }
+        // if (this.data.type === "normal_2" || this.data.type === "normal_2_1") {
+        //     this.parent.createItem(this.x + (this.w / 2), this.y + (this.h / 2), 30, 30, "item_1");
+        // } else if (this.data.type === "normal_4") {
+        //     console.log(this.data.type);
+        //  66 69 30 30 30 30
+        //     this.parent.createItem(this.x + (this.w / 2), this.y + (this.h / 2), 30, 30, "item_2");
+        // }
     }
 
     update(d) {
@@ -177,8 +99,6 @@ export class Enemy {
         let pt = null;
         if (this.data.pattern) {
             pt = this.data.reverse ? Patterns.list[this.data.pattern].getReversePoint(this.playTm) : Patterns.list[this.data.pattern].getPoint(this.playTm);
-            // if (this.data.type === "boss_1") {
-            // }
         }
         this.checkTimeFire();
 
@@ -188,12 +108,8 @@ export class Enemy {
                 this.timeBullets = TimeBullet.getEnemy(this.data.type);
             } else {
                 let normal = null;
-                if (Array.isArray(this.data.v)) {
-                    normal = this.data.v[this.playTm < this.data.changeVTm ? 0 : 1].normalize();
-                    // console.log(this.playTm);
-                } else {
-                    normal = this.data.v.normalize();
-                }
+                if (Array.isArray(this.data.v)) normal = this.data.v[this.playTm < this.data.changeVTm ? 0 : 1].normalize();
+                else  normal = this.data.v.normalize();
                 let ptCurrent = {x: this.x, y: this.y};
 
                 this.x += normal.x * d * this.data.s;

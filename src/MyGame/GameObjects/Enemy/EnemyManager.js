@@ -1,113 +1,101 @@
 ﻿import {Enemy} from "./Enemy";
 import {StageManager} from "../Stage/StageManager"
-import {getCollisionPoint} from "../CollisionUtils";
+import {checkCollision, getCollisionPoint} from "../CollisionUtils";
+import { loadImage, loadJSON } from "../GameUtils";
+import defaultData from "../Data/enemy/enemy";
+import bossData from "../Data/enemy/boss";
+import wizardData from "../Data/enemy/wizard";
+
 
 export default class EnemyManager {
 
-  constructor(parent, imgs) {
+  constructor(parent) {
     this.parent = parent;
     this.canvasWidth = parent.gameWidth;
     this.canvasHeight = parent.gameHeight;
 
     this.enemyList = [];
 
+    console.log(defaultData);
+    this.imageList= {};
+  }
+
+  async init() {
     this.imageList = {
-      enemy: imgs[0],
-      enemy_2: imgs[1],
-      enemy_2_1: imgs[2],
-      boss_1: imgs[3],
-      boss: imgs[4],
-      enemy_3: imgs[5],
-      enemy_4: imgs[6],
-      boss_2: imgs[7],
-      boss_3: imgs[8]
-    }
+      "default" : await loadImage(defaultData.img),
+      "wizard_fire": await loadImage(wizardData[0].img),
+      "wizard_ice": await loadImage(wizardData[1].img),
+
+      "boss_1": await loadImage(bossData[0].img),
+      "boss_2": await loadImage(bossData[1].img),
+      "boss_3": await loadImage(bossData[2].img),
+    };
   }
 
   getEnemyCount = () => this.enemyList.filter(v => v.active).length;
 
-  createEnemy(data) {
-    let type = data.type;
-    let e = this.enemyList.filter(v => v.type === type).find(x => !x.active);
+  findNotActive = (type, list) => {
+   return list.filter(v => v.type === type).find(x => !x.active);
+  };
+  
+  createEnemy(data, model) {
+    let e = this.findNotActive(data.type, this.enemyList);
     if (e === undefined) {
-      e = new Enemy(this.parent);
+      e = new model(this.parent);
       this.enemyList.push(e);
     }
-    e.reset(data.x, data.y, data.w, data.h, data.img, data);
+    e.reset(data);
   };
 
-  update(delta) {
+  readStage() {
     //스테이지 읽고 에네미 생성 업데이트
     let nowEnemy = this.parent.stageData[StageManager.getStageIdx()];
+    // console.log(nowEnemy, this.parent.gameTimer);
+    if (nowEnemy !== undefined && nowEnemy.time <= this.parent.gameTimer) {
+      // 이미지 (이름.확장자) String => Img
+      let key = Object.keys(this.imageList).find(v => v == nowEnemy.data.type);
+      nowEnemy.data.img = this.imageList[key]; 
 
-    if (nowEnemy !== undefined && nowEnemy.type === "enemy" && nowEnemy.time <= this.parent.gameTimer) {
-      this.createEnemy(nowEnemy.data);
+      this.createEnemy(nowEnemy.data, nowEnemy.type);
       StageManager.addStageIdx();
     }
+  }
 
+  checkIsHit(you, target) {
+    // 부딪힘 체크
+    let point = getCollisionPoint(you, target, true);
+    console.log(checkCollision(you, target));
+    if (point !== null) {
+      this.parent.player.setDamage(100);
+      this.parent.player.downgrade();
+      // youObj.active = false;
+      this.parent.createExplosion(point.x, point.y, 1, 'hitExp');
+      if (this.parent.player.isPlayerDied) {
+        setTimeout(() => {
+          this.parent.stageClear();
+          this.parent.gameOver = true;
+        }, 500);
+      }
+      return true;
+    } 
+    return false;
+  }
+
+  makeIsHitJson(obj) {
+    return {
+      x: obj.x, y: obj.y, w: obj.w, h: obj.h, // destination image position
+      frame: [0, 0, obj.img.width, obj.img.height],
+      image: obj.img
+    }
+  }
+
+  update(delta) {
+    this.readStage();
     this.enemyList.filter(v => v.active).forEach(e => {
-      let p2 = {
-        x: e.x, y: e.y, w: e.w, h: e.h, // destination image position
-        frame: [0, 0, e.w, e.h],
-        image: e.img
-      };
-
-      const {player} = this.parent;
-      if( !e.data.type.startsWith("boss")) {
-        player.shields.filter(v => v.active).forEach(shield => {
-          let sp1 = {
-            x: shield.x, y: shield.y, w: shield.w, h: shield.h, // destination image position
-            frame: [0, 0, shield.img.width, shield.img.height], // source image position
-            image: shield.img // image element
-          };
-          let point = null;
-          if(p2 !== null) {
-            point = getCollisionPoint(sp1, p2, true);
-          }
-          if( point != null) {
-            p2 = null;
-            e.active = false;
-            if(e.data.nextStage) {
-              e.hp -= 100;
-            }
-            this.parent.createExplosion(point.x, point.y, 1);
-            this.parent.nowScore += e.score;
-
-
-            if (e.data.type === "normal_2" || e.data.type === "normal_2_1") {
-              this.parent.createItem(e.x + (e.w / 2), e.y + (e.h / 2), 30, 30, "item_1");
-            } else if(e.data.type === "normal_4") {
-              console.log(e.data.type);
-              this.parent.createItem(e.x + (e.w / 2), e.y + (e.h / 2), 30, 30, "item_2");
-            }
-          }
-        });
+      if(this.checkIsHit(this.makeIsHitJson(e, "enemy"), this.makeIsHitJson(this.parent.player))) {
+        e.active = false;
       }
-
-      if( e.active ) {
-        let p1 = {
-          x: player.x, y: player.y, w: player.w, h: player.h, // destination image position
-          frame: [0, 0, player.img.width, player.img.height], // source image position
-          image: player.img // image element
-        };
-
-        let point = getCollisionPoint(p1, p2, true);
-        if (point !== null) {
-          console.log("collision:", point, p1, p2);
-          this.parent.player.setDamage(100);
-          this.parent.player.downgrade();
-          e.active = false;
-          this.parent.createExplosion(point.x, point.y, 1, 'hitExp');
-          if (this.parent.player.isPlayerDied) {
-            setTimeout(() => {
-              this.parent.stageClear();
-              this.parent.gameOver = true;
-            }, 500);
-          }
-        }
-      }
-    });
-
+    }); 
     this.enemyList.forEach(e => e.update(delta));
   }
 
