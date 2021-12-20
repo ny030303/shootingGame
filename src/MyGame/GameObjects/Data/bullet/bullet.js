@@ -1,0 +1,47 @@
+export default {
+    "enemyBullet": {
+        "x": 0,
+        "y": 0,
+        "r": 3,
+        "w": null,
+        "h": null,
+        "img": null,
+        "speed":300,
+        "vector": {"x": 0, "y": 1},
+        "damage": 100,
+        "colors": ["#f01616", "#f8f860"]
+    },
+    "playerBullet": {
+        "x": 0,
+        "y": 0,
+        "r": 3,
+        "w": null,
+        "h": null,
+        "img": "bullet_1.png",
+        "speed":300,
+        "vector": {"x": 0, "y": 1},
+        "damage": 100,
+    },
+    "fireBullet": {
+        "x": 0,
+        "y": 0,
+        "r": 3,
+        "w": null,
+        "h": null,
+        "img": "effect/FireBall_2_64x64(1).png",
+        "speed":300,
+        "vector": {"x": 0, "y": 1},
+        "damage": 100,
+    },
+    "fireBullet": {
+        "x": 0,
+        "y": 0,
+        "r": 3,
+        "w": null,
+        "h": null,
+        "img": "effect/FireBall_2_64x64(1).png",
+        "speed":300,
+        "vector": {"x": 0, "y": 1},
+        "damage": 100,
+    }
+}

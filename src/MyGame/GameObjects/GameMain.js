@@ -73,11 +73,9 @@ class GameMain {
     await this.bgManager.init();
 
     // 매니저 이미지 넘겨주기
-    this.bulletManager = new BulletManager(this, [
-      await loadImage("effect/FireBall_2_64x64(1).png"),
-      await loadImage("effect/IcePick_64x64(1).png"),
-      await loadImage("bullet_1.png"),
-    ]);
+    this.bulletManager = new BulletManager(this);
+    await this.bulletManager.init();
+    
     this.explosionManager = new ExplosionManager(this, [
       await loadImage("explosion.png"),
       await loadImage("effect/IceShatter_2_96x96.png"),

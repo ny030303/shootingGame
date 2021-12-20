@@ -54,7 +54,7 @@ export default class EnemyManager {
     if (nowEnemy !== undefined && nowEnemy.time <= this.parent.gameTimer) {
       // 이미지 (이름.확장자) String => Img
       let key = Object.keys(this.imageList).find(v => v == nowEnemy.data.type);
-      nowEnemy.data.img = this.imageList[key]; 
+      nowEnemy.data.img = this.imageList[key];
 
       this.createEnemy(nowEnemy.data, nowEnemy.type);
       StageManager.addStageIdx();

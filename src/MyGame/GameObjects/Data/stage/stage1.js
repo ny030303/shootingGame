@@ -18,9 +18,9 @@ let stage = [
 
     // 양쪽 사이드에 5 enemy vector ㄴㅐ려오기
     ...makeEitherSideEnemys(Enemy, enemy, 4, 5, 0.9, 250, gw),
-    // 7번 패턴 양쪽에
-    ...makePatternEnemy(Wizard, wizards[0], 11, 5, 0.9, 7, false, 100),
-    ...makePatternEnemy(Wizard, wizards[1], 11, 5, 0.9, 7, true, 100),
+    // 7번 패턴 양쪽에     10
+    ...makePatternEnemy(Wizard, wizards[0], 10, 5, 0.9, 7, false, 100),
+    ...makePatternEnemy(Wizard, wizards[1], 10, 5, 0.9, 7, true, 100),
 
     // 18
     {
@@ -37,7 +37,6 @@ let stage = [
 
     // ...makePatternEnemy(enemy, 33, 10, 0.6, 1, true, 100),
     // ...makeEitherSideEnemys(Enemy, enemy, 50, 3, 0.9, 250, gw),
-
     {
         time: 60, type: "enemy",
         data: Object.assign(bosses[0], { nextStage: true })

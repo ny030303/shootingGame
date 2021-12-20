@@ -1,6 +1,7 @@
 import {isOverlapedRect, makeBulletImage} from "../CollisionUtils";
 import {Patterns} from "../Patterns";
 
+import {checkCollision, getCollisionPoint} from "../CollisionUtils";
 
 export class Bullet {
 
@@ -61,6 +62,34 @@ export class Bullet {
     // 화면밖 검사
     if (!isOverlapedRect({x: 0, y: 0, w: this.parent.canvasWidth, h: this.parent.canvasHeight}, this)) {
       this.active = false;
+    }
+  }
+
+  checkIsHit(target, main) {
+    // 부딪힘 체크
+    let point = getCollisionPoint(this, target, true);
+    console.log(checkCollision(this, target));
+    if (point !== null) {
+      main.player.setDamage(100);
+      main.player.downgrade();
+      // youObj.active = false;
+      main.createExplosion(point.x, point.y, 1, 'hitExp');
+      if (main.player.isPlayerDied) {
+        setTimeout(() => {
+          main.stageClear();
+          main.gameOver = true;
+        }, 500);
+      }
+      return true;
+    } 
+    return false;
+  }
+
+  getIsHitJson() {
+    return {
+        x: this.x, y: this.y, w: this.w, h: this.h, // destination image position
+        frame: [0, 0, this.img.width, this.img.height],
+        image: this.img
     }
   }
 

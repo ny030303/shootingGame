@@ -9,7 +9,7 @@ export class Wizard extends Enemy {
 
     explosion() {
         super.explosion();
-        super.parent.createItem(this.x + (this.w / 2), this.y + (this.h / 2), 30, 30, "item_1");
+        this.parent.createItem(this.x + (this.w / 2), this.y + (this.h / 2), 30, 30, "item_1");
     }
 
     fire() {

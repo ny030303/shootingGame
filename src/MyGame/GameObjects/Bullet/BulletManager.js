@@ -2,10 +2,11 @@
 import {Bullet} from "./Bullet";
 import {checkCollision, getCollisionPoint, makeBulletImage} from "../CollisionUtils";
 import {StageManager} from "../Stage/StageManager";
+import { loadImage } from "../GameUtils";
 
 export default class BulletManager {
 
-  constructor(parent, imgs) {
+  constructor(parent) {
     BulletManager.expTypes = {fireBall: 'fireExp', iceBall: 'iceExp'};
     this.parent = parent;
     this.playerBulletList = [];
@@ -14,12 +15,18 @@ export default class BulletManager {
     this.fireBallList = [];
     this.canvasWidth = parent.gameWidth;
     this.canvasHeight = parent.gameHeight;
+    this.imageList = {};
+    // this.imageList = {
+      
+    // };
+  }
 
+  async init() {
     this.imageList = {
-      fireBall: imgs[0],
-      iceBall: imgs[1],
-      playerBullet: imgs[2],
-      enemyBullet: makeBulletImage(3, ["#f01616", "#f8f860"])
+      enemyBullet: makeBulletImage(3, ["#f01616", "#f8f860"]),
+      playerBullet: await loadImage("bullet_1.png"),
+      fireBullet: await loadImage("effect/FireBall_2_64x64(1).png"),
+      iceBullet: await loadImage("effect/IcePick_64x64(1).png"),
     };
   }
 
@@ -67,21 +74,11 @@ export default class BulletManager {
     ];
 
     allBullets.forEach(b => {
-      let p2 = {
-        x: b.x, y: b.y, w: b.w, h: b.h, // destination image position
-        frame: [0, 0, b.w, b.h],
-        image: b.img
-      };
       if (b.isPlayer) {
         //플레이어 총알이 적과 충돌했는지를 검사
         this.parent.enemyManager.enemyList.filter(e => e.active).forEach(e => {
-          let p1 = {
-            x: e.x, y: e.y, w: e.w, h: e.h, // destination image position
-            frame: [0, 0, e.w, e.h], // source image position
-            image: e.img// image element
-          };
-
-          let point = getCollisionPoint(p1, p2);
+          
+          let point = getCollisionPoint(e.getIsHitJson(), b.getIsHitJson());
           if (point != null) {
             e.setDamage(b.damage);
             b.active = false;
@@ -97,7 +94,7 @@ export default class BulletManager {
             frame: [0, 0, shield.img.width, shield.img.height], // source image position
             image: shield.img // image element
           };
-          let point = getCollisionPoint(sp1, p2, true);
+          let point = getCollisionPoint(sp1, b.getIsHitJson(), true);
           if (point != null) {
             b.active = false;
             this.parent.createExplosion(point.x, point.y, 3, BulletManager.expTypes[b.type] || 'hitExp');
@@ -110,7 +107,7 @@ export default class BulletManager {
             frame: [0, 0, player.img.width, player.img.height], // source image position
             image: player.img // image element
           };
-          let point = getCollisionPoint(p1, p2, true);
+          let point = getCollisionPoint(p1, b.getIsHitJson(), true);
           if (point != null) {
             this.parent.player.setDamage(b.damage);
             b.active = false;

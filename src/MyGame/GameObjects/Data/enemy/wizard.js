@@ -2,7 +2,7 @@ export default [
     {
         "x": -40,
         "y": -60,
-        "w": 60,
+        "w": 55,
         "h": 80,
         "img": "wizard_fire.png",
         "expSound": "mp3/explodeEffect.mp3",
@@ -19,7 +19,7 @@ export default [
     {
         "x": -40,
         "y": -60,
-        "w": 60,
+        "w": 55,
         "h": 80,
         "img": "wizard_ice.png",
         "expSound": "mp3/explodeEffect.mp3",

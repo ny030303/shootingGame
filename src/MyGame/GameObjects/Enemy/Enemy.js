@@ -133,6 +133,13 @@ export class Enemy {
             this.active = false;
         }
     }
+    getIsHitJson() {
+        return {
+            x: this.x, y: this.y, w: this.w, h: this.h, // destination image position
+            frame: [0, 0, this.img.width, this.img.height],
+            image: this.img
+        }
+    }
 
     barGraphRender(ctx, x, y, w, h, nowNum, maxNum, color) {
         ctx.beginPath();
