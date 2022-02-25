@@ -5,7 +5,7 @@ export default class Background {
     this.w = w;
     this.h = h;
     this.img = img;
-    this.speed = 120;
+    this.speed = 60;
     console.log(x, y, w, h, img);
   }
 

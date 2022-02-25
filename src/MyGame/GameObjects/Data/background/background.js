@@ -2,15 +2,15 @@ import game from "../game";
 
 export default [
     {
-        "img": "back.png",
-        "speed": 120
+        "img": "SpaceBackground1.png",
+        // "speed": 100
     },
     {
-        "img": "stage_bg2.png",
-        "speed": 120
+        "img": "SpaceBackground2.png",
+        // "speed": 120
     },
     {
-        "img": "space_bg.png",
-        "speed": 120
+        "img": "SpaceBackground3.png",
+        // "speed": 120
     },
 ]

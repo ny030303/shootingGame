@@ -1,9 +1,9 @@
 export default {
     "x": -40,
     "y": -60,
-    "w": 40,
-    "h": 60,
-    "img": "enemy_1.png",
+    "w": 42,
+    "h": 62,
+    "img": "BurningBread.png",
     "expSound": "mp3/explodeEffect.mp3",
     "s": 100,
     "v": {"x": 0, "y": 1},
